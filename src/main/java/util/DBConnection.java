@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.net.URI;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DBConnection {
     public static Connection get() throws Exception {
@@ -28,6 +30,21 @@ public class DBConnection {
                 }
             }
             url = "jdbc:postgresql://" + host + ":" + port + "/" + db;
+        } else if (url.startsWith("jdbc:postgresql://")) {
+            String s = url.substring("jdbc:postgresql://".length());
+            Pattern p = Pattern.compile("(?:(?<user>[^:/@]+)(?::(?<pass>[^@]+))@)?(?<host>[^/:]+)(?::(?<port>\\d+))?/(?<db>[^?]+)");
+            Matcher m = p.matcher(s);
+            if (m.matches()) {
+                String host = m.group("host");
+                String portStr = m.group("port");
+                int port = portStr != null ? Integer.parseInt(portStr) : 5432;
+                String db = m.group("db");
+                String pu = m.group("user");
+                String pp = m.group("pass");
+                if ((user == null || user.isEmpty()) && pu != null) user = pu;
+                if ((pass == null || pass.isEmpty()) && pp != null) pass = pp;
+                url = "jdbc:postgresql://" + host + ":" + port + "/" + db;
+            }
         }
         if (user == null || pass == null) throw new IllegalStateException("Database env not set");
         return DriverManager.getConnection(url, user, pass);
