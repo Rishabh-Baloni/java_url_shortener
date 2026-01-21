@@ -1,27 +1,51 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>URL Shortener</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shorten URL | Fast & Clean</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>URL Shortener</h1>
-        <form method="post" action="/shorten">
-            <input type="url" name="longUrl" placeholder="Enter long URL" required>
-            <button type="submit">Shorten</button>
-        </form>
-        <div class="message">
+    <div class="main-container">
+        <div class="card">
+            <div class="header">
+                <h1>Shorten Your Links</h1>
+                <p class="subtitle">Paste a long URL below to create a short, shareable link instantly.</p>
+            </div>
+            
+            <form method="post" action="/shorten" id="shortenForm">
+                <div class="form-group">
+                    <input type="url" name="longUrl" placeholder="Paste a long URL here..." required autofocus>
+                    <button type="submit" class="btn" id="submitBtn">Shorten URL</button>
+                </div>
+            </form>
+
             <%
                 Object err = request.getAttribute("error");
                 if (err != null) {
-                    out.print("<p class=\"error\">" + err.toString() + "</p>");
+            %>
+                <div class="error-message visible">
+                    <%= err.toString() %>
+                </div>
+            <%
                 }
             %>
         </div>
+
+        <div class="footer">
+            Built with Java • Servlets • JSP • PostgreSQL • Deployed on Render
+        </div>
     </div>
+
+    <script>
+        document.getElementById('shortenForm').addEventListener('submit', function(e) {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Shortening...';
+            // Form continues to submit normally
+        });
+    </script>
 </body>
 </html>
-
