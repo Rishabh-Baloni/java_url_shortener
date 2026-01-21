@@ -16,6 +16,10 @@
 /.trae/
 /.env
 
-# Do NOT ignore lib/*.jar because we vendor dependencies
-# /lib/*.jar
+# Project housekeeping (not needed in VCS)
+Plan.txt
+Rules.txt
+database.sql
 
+# Vendor dependencies are downloaded during build; do not track
+/lib/
