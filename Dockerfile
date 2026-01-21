@@ -1,7 +1,6 @@
-FROM eclipse-temurin:21-jdk
+FROM openjdk:21-jdk
 WORKDIR /app
 COPY . .
-RUN chmod +x scripts/build-fat-jar.sh && ./scripts/build-fat-jar.sh
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/* && chmod +x scripts/build-fat-jar.sh && ./scripts/build-fat-jar.sh
 EXPOSE 8080
 CMD ["java","-jar","app.jar"]
-
