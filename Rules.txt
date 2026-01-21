@@ -1,0 +1,3 @@
+1. Make sure to make this project under this directory only like don't make a folder here and then start building inside it, rather make the project in this directory.
+2. Whatever you do shall not increase the memory or space consumption in local disk c in any way , like if pip install is done all that should be in a venv locally or however suitable just make sure nothing is downloaded or installed in local disk c
+3. In the plan there is NAB sentences written for your understanding don't write any word having NAB in the project ..... it is just for you to know that what we have to make.

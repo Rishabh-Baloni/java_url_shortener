@@ -1,0 +1,21 @@
+# IDE/OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Build outputs
+/build/
+/out/
+/target/
+/app.jar
+*.class
+*.log
+
+# Temporary files
+/.trae/
+/.env
+
+# Do NOT ignore lib/*.jar because we vendor dependencies
+# /lib/*.jar
+

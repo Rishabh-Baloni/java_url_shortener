@@ -1,0 +1,252 @@
+📌 PROJECT OVERVIEW
+
+Project Name: URL Shortener Web Application (Pure Java)
+Goal: Build a clean, interview-ready Java web project with a simple UI and live deployment on Render, focusing on clarity, correctness, and explainability.
+
+This project will be used for technical interviews (banking/product companies), so simplicity and understanding are more important than advanced frameworks.
+
+🛑 HARD CONSTRAINTS (DO NOT VIOLATE)
+
+Use Java (Core Java + Servlets + JSP only)
+
+❌ NO Spring / Spring Boot
+
+❌ NO JavaScript frameworks (React, Next, etc.)
+
+❌ NO microservices
+
+❌ NO Redis / Kafka / Docker / Kubernetes
+
+❌ NO over-engineering
+
+👉 The project must remain easy to explain in interviews.
+
+🧱 TECH STACK
+
+Language: Java 8+
+
+Web: Java Servlets + JSP
+
+Server: Embedded Tomcat
+
+Database: PostgreSQL (Render managed DB)
+
+Access: JDBC
+
+UI: JSP + basic HTML/CSS (clean & minimal)
+
+Deployment: Render (Web Service)
+
+🎯 FEATURES (ONLY THESE — DO NOT ADD MORE)
+Core Features
+
+Input a long URL via web UI
+
+Generate a unique short URL using Base62 encoding
+
+Store mappings in database
+
+Redirect short URL to original URL
+
+Track click count
+
+UI Requirements
+
+Simple, professional UI
+
+One main page:
+
+Input field for long URL
+
+“Shorten” button
+
+Display generated short URL
+
+No fancy animations
+
+CSS should be minimal and readable
+
+🏗️ ARCHITECTURE (KEEP THIS EXACTLY)
+Browser
+  ↓
+JSP (UI)
+  ↓
+Servlet (Controller)
+  ↓
+Service Layer (Core Logic)
+  ↓
+JDBC Repository
+  ↓
+PostgreSQL
+
+
+👉 Core logic must be independent of web layer.
+
+📁 PROJECT STRUCTURE (MANDATORY)
+UrlShortener/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── controller/
+│   │   │   │   ├── ShortenServlet.java
+│   │   │   │   └── RedirectServlet.java
+│   │   │   │
+│   │   │   ├── service/
+│   │   │   │   ├── ShortenerService.java
+│   │   │   │   └── Base62Encoder.java
+│   │   │   │
+│   │   │   ├── repository/
+│   │   │   │   └── UrlRepository.java
+│   │   │   │
+│   │   │   └── util/
+│   │   │       └── DBConnection.java
+│   │   │
+│   │   └── webapp/
+│   │       ├── index.jsp
+│   │       ├── result.jsp
+│   │       └── css/
+│   │           └── style.css
+│
+├── database.sql
+└── README.md
+
+🗄️ DATABASE DESIGN
+
+Table: urls
+
+Column	Type	Notes
+id	SERIAL (PK)	Auto increment
+short_code	VARCHAR	UNIQUE, indexed
+long_url	TEXT	Original URL
+clicks	INTEGER	Default 0
+
+Add index on short_code.
+
+🔢 SHORT URL GENERATION (VERY IMPORTANT)
+
+Use Base62 encoding
+
+Convert database-generated numeric ID → Base62 string
+
+Characters: a–z A–Z 0–9
+
+Deterministic, collision-free
+
+⚠️ Add clear comments explaining this logic for interview readability.
+
+🔁 CORE FLOW (MUST FOLLOW)
+Shorten URL
+
+User submits long URL via JSP
+
+Servlet calls service
+
+Long URL saved → DB generates ID
+
+ID converted to Base62
+
+short_code updated in DB
+
+Short URL shown on UI
+
+Redirect
+
+User accesses /r/{shortCode}
+
+Servlet looks up original URL
+
+Increment click count
+
+HTTP redirect to long URL
+
+❗ ERROR HANDLING
+
+Handle gracefully:
+
+Invalid URL input
+
+Short code not found
+
+Database connection failure
+
+Show simple, clear messages on UI.
+
+🌐 DEPLOYMENT (RENDER)
+
+Package as runnable JAR
+
+Use embedded Tomcat
+
+Environment variables:
+
+DB_URL
+
+DB_USER
+
+DB_PASSWORD
+
+PostgreSQL via Render plugin
+
+App must run with:
+
+java -jar app.jar
+
+📘 README.md (VERY IMPORTANT)
+
+README must include:
+
+Problem statement
+
+Architecture explanation
+
+Feature list
+
+Base62 explanation (simple language)
+
+How to run locally
+
+How deployed on Render
+
+Future improvements
+
+Write README assuming interviewer will read it.
+
+✍️ CODING GUIDELINES
+
+Simple method names
+
+Clear separation of layers
+
+No unused code
+
+Comment important logic
+
+Readability > clever tricks
+
+🎤 INTERVIEW MINDSET (KEEP IN MIND)
+
+This project should allow the candidate to confidently explain:
+
+Why Base62 was chosen
+
+How collisions are avoided
+
+How redirection works
+
+How data consistency is maintained
+
+How it could be scaled later
+
+🏁 FINAL GOAL
+
+End result should be:
+
+✅ A live URL Shortener website
+
+✅ Fully Java-based
+
+✅ Easy to demo
+
+✅ Easy to explain
+
+✅ Safe for NAB / product company interviews
