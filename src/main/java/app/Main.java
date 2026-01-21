@@ -4,6 +4,7 @@ import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.StandardRoot;
 import org.apache.catalina.webresources.JarResourceSet;
+import org.apache.catalina.connector.Connector;
 import controller.ShortenServlet;
 import controller.RedirectServlet;
 import repository.UrlRepository;
@@ -13,13 +14,17 @@ import java.net.URLDecoder;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        int port = 8080;
+        int port = 10000;
         String p = System.getenv("PORT");
         if (p != null) {
             try { port = Integer.parseInt(p); } catch (Exception ignored) {}
         }
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(port);
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setPort(port);
+        connector.setProperty("address", "0.0.0.0");
+        tomcat.setConnector(connector);
         Context ctx = tomcat.addWebapp("", new File(".").getAbsolutePath());
         String jarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         jarPath = URLDecoder.decode(jarPath, "UTF-8");
