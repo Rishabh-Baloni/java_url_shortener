@@ -33,6 +33,7 @@ download https://repo1.maven.org/maven2/org/apache/tomcat/embed/tomcat-embed-cor
 download https://repo1.maven.org/maven2/org/apache/tomcat/embed/tomcat-embed-el/9.0.112/tomcat-embed-el-9.0.112.jar lib/tomcat-embed-el-9.0.112.jar
 download https://repo1.maven.org/maven2/org/apache/tomcat/embed/tomcat-embed-jasper/9.0.112/tomcat-embed-jasper-9.0.112.jar lib/tomcat-embed-jasper-9.0.112.jar
 download https://repo1.maven.org/maven2/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar lib/javax.servlet-api-4.0.1.jar
+download https://repo1.maven.org/maven2/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2.jar lib/javax.annotation-api-1.3.2.jar
 download https://repo1.maven.org/maven2/org/eclipse/jdt/ecj/3.40.0/ecj-3.40.0.jar lib/ecj-3.40.0.jar
 download https://repo1.maven.org/maven2/org/postgresql/postgresql/42.7.9/postgresql-42.7.9.jar lib/postgresql-42.7.9.jar
 mkdir -p build/classes
