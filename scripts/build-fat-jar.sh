@@ -42,7 +42,6 @@ mkdir -p build/fat
 cp -r build/classes/* build/fat/
 mkdir -p build/fat/src/main/webapp
 cp -r src/main/webapp/* build/fat/src/main/webapp/
-libs=$(ls lib/*.jar | sed 's|^|lib/|' | tr '\n' ' ')
-printf "Main-Class: app.Main\nClass-Path: %s\n" "$libs" > build/manifest.mf
+echo "Main-Class: app.Main" > build/manifest.mf
 (cd build/fat && jar cfm ../../app.jar ../manifest.mf -C . .)
 echo "Built app.jar"
