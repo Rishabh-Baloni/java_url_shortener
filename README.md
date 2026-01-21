@@ -9,7 +9,7 @@ A clean, interview-ready Java web project that implements a URL shortener using 
 - Keep implementation simple and explainable.
 
 ## Tech Stack
-- Java 8+
+- Java 17/21
 - Servlets + JSP
 - Embedded Tomcat
 - PostgreSQL (managed)
@@ -19,7 +19,8 @@ A clean, interview-ready Java web project that implements a URL shortener using 
 - Shorten long URL to Base62 short code
 - Redirect `/r/{shortCode}` to original URL
 - Click counter increment on each redirect
-- Minimal JSP UI (index + result) with basic CSS
+- Clean JSP UI with modern gradient background, centered card, responsive layout
+- Result page with copy-to-clipboard button and optional click count
 
 ## Architecture
 - JSP (UI) → Servlet (Controller) → Service (Core Logic) → JDBC Repository → PostgreSQL
@@ -44,34 +45,24 @@ src/main/webapp/
   index.jsp
   result.jsp
   css/style.css
-database.sql
-lib/  (3rd-party jars downloaded here)
+lib/  (generated during build; not tracked)
 scripts/
   build-fat-jar.sh
   build-fat-jar.ps1
 ```
 
 ## Database Schema
-Apply `database.sql` to your PostgreSQL database:
-```
-CREATE TABLE IF NOT EXISTS urls (
-  id SERIAL PRIMARY KEY,
-  short_code VARCHAR(255) UNIQUE,
-  long_url TEXT NOT NULL,
-  clicks INTEGER NOT NULL DEFAULT 0
-);
-CREATE INDEX IF NOT EXISTS idx_urls_short_code ON urls(short_code);
-```
+Created automatically on startup by `UrlRepository.ensureSchema()`.
 
 ## Configuration (Environment Variables)
-- `PORT` (required by Render; defaults to 8080 locally)
+- `PORT` (Render sets this; defaults to 10000 locally)
 - `DB_URL` (e.g. `jdbc:postgresql://<host>:5432/<db>`)
 - `DB_USER`
 - `DB_PASSWORD`
 
 ## Build and Run Locally
-1) Download deps to `lib/` (already included in this folder):
-   - tomcat-embed-core, tomcat-embed-el, tomcat-embed-jasper, ecj, javax.servlet-api, postgresql
+1) Dependencies
+   - Downloaded automatically into `lib/` by the build scripts (not committed to repo)
 
 2) Build fat JAR:
    - Windows:
@@ -84,14 +75,23 @@ CREATE INDEX IF NOT EXISTS idx_urls_short_code ON urls(short_code);
      ```
 
 3) Run:
-```
-export PORT=8080
-export DB_URL="jdbc:postgresql://<host>:5432/<db>"
-export DB_USER="<user>"
-export DB_PASSWORD="<password>"
-java -jar app.jar
-```
-Open `http://localhost:8080/index.jsp`
+   - Windows:
+     ```
+     set PORT=10000
+     set DB_URL=jdbc:postgresql://<host>:5432/<db>
+     set DB_USER=<user>
+     set DB_PASSWORD=<password>
+     java -cp "app.jar;lib/*" app.Main
+     ```
+   - Linux/macOS:
+     ```
+     export PORT=10000
+     export DB_URL="jdbc:postgresql://<host>:5432/<db>"
+     export DB_USER="<user>"
+     export DB_PASSWORD="<password>"
+     java -cp "app.jar:lib/*" app.Main
+     ```
+Open `http://localhost:10000/index.jsp`
 
 ## Render Deployment
 - Build Command:
@@ -100,7 +100,7 @@ Open `http://localhost:8080/index.jsp`
   ```
 - Start Command:
   ```
-  java -jar app.jar
+  java -cp app.jar:lib/* app.Main
   ```
 - Environment:
   - `PORT` provided by Render
@@ -119,4 +119,3 @@ Open `http://localhost:8080/index.jsp`
 ## Notes
 - No Spring or extra frameworks.
 - Pure Java Servlets + JSP, Embedded Tomcat, JDBC.
-
