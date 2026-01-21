@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk
+FROM eclipse-temurin:21-jdk
 WORKDIR /app
 COPY . .
 RUN chmod +x scripts/build-fat-jar.sh && ./scripts/build-fat-jar.sh
