@@ -4,8 +4,20 @@ import util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class UrlRepository {
+    public void ensureSchema() throws Exception {
+        try (Connection c = DBConnection.get(); Statement s = c.createStatement()) {
+            s.executeUpdate("CREATE TABLE IF NOT EXISTS urls (" +
+                    "id SERIAL PRIMARY KEY," +
+                    "short_code VARCHAR(255) UNIQUE," +
+                    "long_url TEXT NOT NULL," +
+                    "clicks INTEGER NOT NULL DEFAULT 0" +
+                    ")");
+            s.executeUpdate("CREATE INDEX IF NOT EXISTS idx_urls_short_code ON urls(short_code)");
+        }
+    }
     public long saveLongUrl(String longUrl) throws Exception {
         try (Connection c = DBConnection.get();
              PreparedStatement ps = c.prepareStatement("INSERT INTO urls(long_url, clicks) VALUES (?, 0) RETURNING id")) {
@@ -42,4 +54,3 @@ public class UrlRepository {
         }
     }
 }
-

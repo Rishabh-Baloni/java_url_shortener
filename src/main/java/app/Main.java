@@ -27,6 +27,7 @@ public class Main {
         resources.addPreResources(new JarResourceSet(resources, "/", jarPath, "/src/main/webapp"));
         ctx.setResources(resources);
         UrlRepository repo = new UrlRepository();
+        repo.ensureSchema();
         ShortenerService service = new ShortenerService(repo);
         Tomcat.addServlet(ctx, "ShortenServlet", new ShortenServlet(service));
         ctx.addServletMappingDecoded("/shorten", "ShortenServlet");
